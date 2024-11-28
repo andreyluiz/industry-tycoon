@@ -15,6 +15,7 @@
 			'bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-600 disabled:hover:bg-zinc-600 disabled:active:bg-zinc-600'
 	)}
 	{disabled}
+	on:click
 >
 	{label}
 </button>
