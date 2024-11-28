@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ResourceLocation, type Land, type Resource } from '$lib/types';
 	import Icon from '@iconify/svelte';
-	import type { Snippet } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 
 	interface Props {
 		footer: Snippet<[Land]>;
@@ -14,11 +14,23 @@
 	let hoveredResourcePosition: { x: number; y: number } | null = $state(null);
 	let hoveredResourceElement: HTMLSpanElement | null = null;
 
+	const recalculateHoveredResourcePosition = () => {
+		const rect = hoveredResourceElement?.getBoundingClientRect();
+		hoveredResourcePosition = rect ? { x: rect.left, y: rect.top } : null;
+	};
+
 	$effect(() => {
 		if (hoveredResourceElement) {
-			const rect = hoveredResourceElement.getBoundingClientRect();
-			hoveredResourcePosition = { x: rect.left, y: rect.top };
+			recalculateHoveredResourcePosition();
 		}
+	});
+
+	onMount(() => {
+		window.addEventListener('resize', recalculateHoveredResourcePosition);
+
+		return () => {
+			window.removeEventListener('resize', recalculateHoveredResourcePosition);
+		};
 	});
 </script>
 
@@ -49,7 +61,7 @@
 {/if}
 
 <div
-	class="w-[300px] cursor-default rounded-lg bg-zinc-700 p-4 shadow-sm"
+	class="cursor-default rounded-lg bg-zinc-700 p-4 shadow-sm"
 	data-title={land.title}
 	class:opacity-30={hoveredResource}
 >
@@ -68,14 +80,16 @@
 	/>
 
 	<div class="flex flex-col gap-3">
-		<div class="flex flex-col gap-1">
-			<span class="text-sm font-medium text-zinc-400">Size:</span>
-			<span class="text-zinc-200">{land.size.toLocaleString()} acres</span>
-		</div>
+		<div class="flex gap-8">
+			<div class="flex flex-col gap-1">
+				<span class="text-sm font-medium text-zinc-400">Size:</span>
+				<span class="text-zinc-200">{land.size.toLocaleString()} acres</span>
+			</div>
 
-		<div class="flex flex-col gap-1">
-			<span class="text-sm font-medium text-zinc-400">Type:</span>
-			<span class="text-zinc-200">{land.type}</span>
+			<div class="flex flex-col gap-1">
+				<span class="text-sm font-medium text-zinc-400">Type:</span>
+				<span class="text-zinc-200">{land.type}</span>
+			</div>
 		</div>
 
 		<div class="flex flex-col gap-1">

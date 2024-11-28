@@ -9,7 +9,7 @@
 	let lands: Land[] = [];
 
 	onMount(() => {
-		lands = getRandomLands(5);
+		lands = getRandomLands(6);
 	});
 </script>
 
@@ -21,7 +21,7 @@
 	/>
 {/snippet}
 
-<div class="mx-auto my-20 flex max-w-6xl flex-col gap-4">
+<div class="mx-auto my-20 flex max-w-6xl flex-col gap-4 px-4">
 	<p class="text-zinc-400">Balance: ${$wallet.balance.toLocaleString()}</p>
 	<h1 class="text-2xl font-bold">Welcome to the Exploitation Age.</h1>
 	<p class="text-zinc-400">
@@ -32,7 +32,7 @@
 		Before anything else, you need to buy some land. Check below some options:
 	</p>
 
-	<div class="flex flex-wrap gap-4">
+	<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 		{#if lands.length === 0}
 			<div class="text-zinc-400">Loading lands...</div>
 		{:else}
