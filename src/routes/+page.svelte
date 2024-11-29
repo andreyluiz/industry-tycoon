@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
-	import { wallet } from '$lib/stores/wallet';
+	import Title from '$lib/components/Title.svelte';
 </script>
 
+<Title title="Home" />
+
 <div class="mx-auto my-20 flex max-w-6xl flex-col gap-4 px-4">
-	<p class="text-zinc-400">Balance: ${$wallet.balance.toLocaleString()}</p>
 	<h1 class="text-2xl font-bold">Welcome to the Exploitation Age.</h1>
 	<p class="text-zinc-400">
 		You are a young entrepreneur who wants to make a fortune by exploiting whatever is thrown at

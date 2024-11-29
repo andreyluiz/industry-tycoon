@@ -16,7 +16,7 @@ export enum ResourceType {
 
 export enum ResourceLocation {
 	Surface = 'Surface',
-	UnderGround = 'UnderGround'
+	Underground = 'Underground'
 }
 
 export interface Resource {

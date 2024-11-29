@@ -56,9 +56,9 @@ export const RESOURCE_QUANTITY_RANGES_PER_LAND = {
 };
 
 export const RESOURCE_LOCATIONS = {
-	[ResourceType.Iron]: [ResourceLocation.Surface, ResourceLocation.UnderGround],
+	[ResourceType.Iron]: [ResourceLocation.Surface, ResourceLocation.Underground],
 	[ResourceType.Wood]: [ResourceLocation.Surface],
-	[ResourceType.Stone]: [ResourceLocation.Surface, ResourceLocation.UnderGround],
+	[ResourceType.Stone]: [ResourceLocation.Surface, ResourceLocation.Underground],
 	[ResourceType.Corn]: [ResourceLocation.Surface]
 };
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import LandCard from '$lib/components/LandCard.svelte';
 	import Title from '$lib/components/Title.svelte';
@@ -10,12 +11,12 @@
 	let loading = $state(true);
 
 	onMount(async () => {
-		lands = await fetch('/api/lands').then((res) => res.json());
+		lands = await fetch('/api/my/lands').then((res) => res.json());
 		loading = false;
 	});
 </script>
 
-<Title title="Lands" />
+<Title title="My lands" />
 
 {#snippet footer(land: Land)}
 	<Button
@@ -26,16 +27,18 @@
 {/snippet}
 
 <div class="mx-auto my-20 flex max-w-6xl flex-col gap-4 px-4">
-	<h1 class="text-2xl font-bold">Lands available for purchase</h1>
-	<p class="text-zinc-400">Check below some options:</p>
+	<h1 class="text-2xl font-bold">Your lands</h1>
 
-	<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-		{#if loading}
-			<div class="text-zinc-400">Loading lands...</div>
-		{:else}
+	{#if loading}
+		<div class="text-zinc-400">Loading lands...</div>
+	{:else if lands.length === 0}
+		<div class="text-zinc-400">You don't have any lands yet.</div>
+		<Button variant="primary" label="Buy a land" on:click={() => goto('/lands')} />
+	{:else}
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 			{#each lands as land (land.title + '-' + land.size + '-' + land.price)}
 				<LandCard {land} {footer} />
 			{/each}
-		{/if}
-	</div>
+		</div>
+	{/if}
 </div>
