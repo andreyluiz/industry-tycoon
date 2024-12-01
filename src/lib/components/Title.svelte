@@ -3,5 +3,5 @@
 </script>
 
 <svelte:head>
-	<title>Age of Exploitation {title ? '| ' + title : ''}</title>
+	<title>Industry Tycoon {title ? '| ' + title : ''}</title>
 </svelte:head>
