@@ -33,6 +33,7 @@
 		"@sveltejs/adapter-vercel": "^5.5.0",
 		"@tailwindcss/typography": "^0.5.15",
 		"@tailwindcss/vite": "^4.0.0-beta.4",
+		"@tonconnect/ui": "^2.0.9",
 		"classnames": "^2.5.1"
 	},
 	"packageManager": "yarn@4.5.1"

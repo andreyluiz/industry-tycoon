@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { wallet } from '$lib/stores/wallet';
+	import { connectWallet, disconnectWallet, getAccountAddress, wallet } from '$lib/stores/wallet';
 	import Icon from '@iconify/svelte';
+	import Button from './Button.svelte';
 </script>
 
 <div class="flex items-center justify-between border-b border-zinc-800 bg-zinc-900 p-4 shadow-sm">
@@ -17,5 +18,10 @@
 			<Icon icon="game-icons:hill-conquest" class="text-2xl" />
 			My Lands
 		</a>
+		{#if $wallet?.isConnected}
+			<Button label={getAccountAddress()} on:click={() => disconnectWallet()} />
+		{:else}
+			<Button label="Connect Wallet" on:click={() => connectWallet()} />
+		{/if}
 	</div>
 </div>

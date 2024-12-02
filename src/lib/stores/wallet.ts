@@ -1,13 +1,43 @@
-import { writable } from 'svelte/store';
+import { dev } from '$app/environment';
+import { TonConnectUI, toUserFriendlyAddress } from '@tonconnect/ui';
+import { readable } from 'svelte/store';
 
-export interface Wallet {
+export const tonConnectUI = new TonConnectUI({
+	manifestUrl:
+		'https://7fad-2001-1708-987-b000-d155-55e9-d6e0-df09.ngrok-free.app/tonconnect-manifest.json'
+});
+
+interface Wallet {
+	isConnected: boolean;
 	balance: number;
 }
 
-export const wallet = writable<Wallet>({ balance: 10000000 });
+export const wallet = readable<Wallet>({ isConnected: false, balance: 0 }, (set) => {
+	set({ isConnected: tonConnectUI.connected, balance: 0 });
 
-export const addBalance = (amount: number) => {
-	wallet.update((wallet) => ({ ...wallet, balance: wallet.balance + amount }));
+	tonConnectUI.onStatusChange((status) => {
+		console.log(tonConnectUI.wallet);
+		console.log(status);
+		set({
+			isConnected: tonConnectUI.connected,
+			balance: 0
+		});
+	});
+});
+
+export const connectWallet = () => {
+	return tonConnectUI.openModal();
 };
 
-export default wallet;
+export const disconnectWallet = () => {
+	return tonConnectUI.disconnect();
+};
+
+export const getAccountAddress = () => {
+	const rawAddress = tonConnectUI.wallet?.account.address;
+	if (!rawAddress) return '';
+	const bouncableUserFriendlyAddress = toUserFriendlyAddress(rawAddress);
+	const testnetOnlyBouncableUserFriendlyAddress = toUserFriendlyAddress(rawAddress, true);
+	const address = dev ? testnetOnlyBouncableUserFriendlyAddress : bouncableUserFriendlyAddress;
+	return address.slice(0, 4) + '...' + address.slice(-4);
+};
